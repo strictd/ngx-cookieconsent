@@ -131,3 +131,7 @@ MIT
 @angular/common@5.0.2
 MIT
 MIT
+
+@ngx-translate/core@9.1.1
+MIT
+MIT

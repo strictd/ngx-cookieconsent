@@ -552,7 +552,68 @@ export class AppComponent implements OnInit, OnDestroy {
     this.revokeChoiceSubscription.unsubscribe();
   }
 }</code></pre><p>See <a href="https://cookieconsent.insites.com/documentation/about-cookie-consent/">Cookie Consent Documentation</a> to see more about how to customize the UI or interact with user interactions.</p>
-<h2 id="credits">Credits</h2>
+<h2 id="i18n-support">I18n Support</h2>
+<p>Messages displayed in the Cookie Consent Bar can easily be translated, using libraries like <a href="https://github.com/ngx-translate/core">ngx-translate</a>.
+Basically this involved the following steps (using ngx-translate + Anglar CLI):</p>
+<ul>
+<li><p><a href="https://github.com/ngx-translate/core#installation">Install</a> and <a href="https://github.com/ngx-translate/core#usage">configure</a> <code>ngx-translate</code></p>
+</li>
+<li><p>Provide the translation JSON files in <code>src/assets/</code>, for e.g: <code>en.json</code>, <code>fr.json</code>, ...</p>
+</li>
+</ul>
+<pre class="line-numbers"><code class="language-JSON">{
+    &quot;cookie&quot;: {
+        &quot;header&quot;: &quot;Cookies used on the website!&quot;,
+        &quot;message&quot;: &quot;This website uses cookies to ensure you get the best experience on our website.&quot;,
+        &quot;dismiss&quot;: &quot;Got it!&quot;,
+        &quot;allow&quot;: &quot;Allow cookies&quot;,
+        &quot;deny&quot;: &quot;Decline&quot;,
+        &quot;link&quot;: &quot;Learn more&quot;
+    }
+}</code></pre><blockquote>
+<p><strong>Note:</strong> see <a href="https://github.com/tinesoft/ngx-cookieconsent/blob/master/src/model/content-options.ts">content-options.ts</a> for complete list of messages that can be translated.</p>
+</blockquote>
+<ul>
+<li>Configure your main component <code>AppComponent</code></li>
+</ul>
+<pre class="line-numbers"><code class="language-ts">import { Component, OnInit } from &#39;&#64;angular/core&#39;;
+import { TranslateService } from &#39;&#64;ngx-translate/core&#39;;
+
+&#64;Component({
+  selector: &#39;app-root&#39;,
+  templateUrl: &#39;./app.component.html&#39;,
+  styleUrls: [&#39;./app.component.scss&#39;]
+})
+export class AppComponent {
+
+  constructor(private ccService: NgcCookieConsentService, private translateService:TranslateService) {
+  }
+
+  ngOnInit() {
+    // Support for translated cookies messages
+    this.translateService.addLangs([&#39;en&#39;, &#39;fr&#39;]);
+    this.translateService.setDefaultLang(&#39;en&#39;);
+
+    const browserLang = this.translateService.getBrowserLang();
+    this.translateService.use(browserLang.match(/en|fr/) ? browserLang : &#39;en&#39;);
+
+    this.translateService//
+      .get([&#39;cookie.header&#39;, &#39;cookie.message&#39;, &#39;cookie.dismiss&#39;, &#39;cookie.allow&#39;, &#39;cookie.deny&#39;, &#39;cookie.link&#39;])
+      .subscribe(data =&gt; {
+
+        this.ccService.getConfig().content = this.ccService.getConfig().content || {} ;
+        // Override default messages with the translated ones
+        this.ccService.getConfig().content.header = data[&#39;cookie.header&#39;];
+        this.ccService.getConfig().content.message = data[&#39;cookie.message&#39;];
+        this.ccService.getConfig().content.dismiss = data[&#39;cookie.dismiss&#39;];
+        this.ccService.getConfig().content.allow = data[&#39;cookie.allow&#39;];
+        this.ccService.getConfig().content.deny = data[&#39;cookie.deny&#39;];
+        this.ccService.getConfig().content.link = data[&#39;cookie.link&#39;];
+
+        this.ccService.destroy();//remove previous cookie bar (with default messages)
+        this.ccService.init(this.ccService.getConfig()); // update config with translated messages
+      });
+  }</code></pre><h2 id="credits">Credits</h2>
 <p><code>ngx-cookieconsent</code> is built upon <a href="https://cookieconsent.insites.com/">Cookie Consent</a>, created by <a href="https://insites.com">Insites</a></p>
 <h2 id="license">License</h2>
 <p>Copyright (c) 2017 Tine Kondo. Licensed under the MIT License (MIT)</p>
