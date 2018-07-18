@@ -466,7 +466,7 @@
                                          <a href="#initialize$">initialize$</a>
                                     </li>
                                     <li>
-                                        <span class="modifier">Private</span> <a href="#InitializeSource">InitializeSource</a>
+                                        <span class="modifier">Private</span> <a href="#initializeSource">initializeSource</a>
                                     </li>
                                     <li>
                                          <a href="#popupClose$">popupClose$</a>
@@ -1334,13 +1334,13 @@
                         <tbody>
                             <tr>
                                 <td class="col-md-4">
-                                    <a name="InitializeSource"></a>
-                                    <span class="name"><b><span class="modifier">Private</span> InitializeSource</b><a href="#InitializeSource"><span class="fa fa-link"></span></a></span>
+                                    <a name="initializeSource"></a>
+                                    <span class="name"><b><span class="modifier">Private</span> initializeSource</b><a href="#initializeSource"><span class="fa fa-link"></span></a></span>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <span class="modifier-icon fa fa-lock"></span><code>InitializeSource:     <code><a href="../interfaces/NgcInitializeEvent.html" target="_self" >Subject&lt;NgcInitializeEvent&gt;</a></code>
+                                    <span class="modifier-icon fa fa-lock"></span><code>initializeSource:     <code><a href="../interfaces/NgcInitializeEvent.html" target="_self" >Subject&lt;NgcInitializeEvent&gt;</a></code>
             </code>
                                 </td>
                             </tr>
@@ -1743,7 +1743,7 @@ export class NgcCookieConsentService {
   // Observable  sources
   private popupOpenSource: Subject&lt;void&gt;;
   private popupCloseSource: Subject&lt;void&gt;;
-  private InitializeSource: Subject&lt;NgcInitializeEvent&gt;;
+  private initializeSource: Subject&lt;NgcInitializeEvent&gt;;
   private statusChangeSource: Subject&lt;NgcStatusChangeEvent&gt;;
   private revokeChoiceSource: Subject&lt;void&gt;;
 
@@ -1772,14 +1772,14 @@ export class NgcCookieConsentService {
     // Observable  sources
     this.popupOpenSource &#x3D; new Subject&lt;void&gt;();
     this.popupCloseSource &#x3D; new Subject&lt;void&gt;();
-    this.InitializeSource &#x3D; new Subject&lt;NgcInitializeEvent&gt;();
+    this.initializeSource &#x3D; new Subject&lt;NgcInitializeEvent&gt;();
     this.statusChangeSource &#x3D; new Subject&lt;NgcStatusChangeEvent&gt;();
     this.revokeChoiceSource &#x3D; new Subject&lt;void&gt;();
 
     // Observable  streams
     this.popupOpen$ &#x3D; this.popupOpenSource.asObservable();
     this.popupClose$ &#x3D; this.popupCloseSource.asObservable();
-    this.initialize$ &#x3D; this.InitializeSource.asObservable();
+    this.initialize$ &#x3D; this.initializeSource.asObservable();
     this.statusChange$ &#x3D; this.statusChangeSource.asObservable();
     this.revokeChoice$ &#x3D; this.revokeChoiceSource.asObservable();
 
@@ -1810,8 +1810,8 @@ export class NgcCookieConsentService {
       this.config.onPopupClose &#x3D;
         () &#x3D;&gt; this.popupCloseSource.next();
 
-      this.config.onInitialize &#x3D;
-        (status: &#x27;allow&#x27; | &#x27;deny&#x27; | &#x27;dismiss&#x27;) &#x3D;&gt; this.InitializeSource.next({ status: status });
+      this.config.onInitialise &#x3D;
+        (status: &#x27;allow&#x27; | &#x27;deny&#x27; | &#x27;dismiss&#x27;) &#x3D;&gt; this.initializeSource.next({ status: status });
 
       this.config.onStatusChange &#x3D;
         (status: &#x27;allow&#x27; | &#x27;deny&#x27; | &#x27;dismiss&#x27;, chosenBefore: boolean) &#x3D;&gt; {

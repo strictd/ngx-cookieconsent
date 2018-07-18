@@ -581,7 +581,7 @@ export class NgcCookieConsentService {
   // Observable  sources
   private popupOpenSource: Subject&lt;void&gt;;
   private popupCloseSource: Subject&lt;void&gt;;
-  private InitializeSource: Subject&lt;NgcInitializeEvent&gt;;
+  private initializeSource: Subject&lt;NgcInitializeEvent&gt;;
   private statusChangeSource: Subject&lt;NgcStatusChangeEvent&gt;;
   private revokeChoiceSource: Subject&lt;void&gt;;
 
@@ -610,14 +610,14 @@ export class NgcCookieConsentService {
     // Observable  sources
     this.popupOpenSource &#x3D; new Subject&lt;void&gt;();
     this.popupCloseSource &#x3D; new Subject&lt;void&gt;();
-    this.InitializeSource &#x3D; new Subject&lt;NgcInitializeEvent&gt;();
+    this.initializeSource &#x3D; new Subject&lt;NgcInitializeEvent&gt;();
     this.statusChangeSource &#x3D; new Subject&lt;NgcStatusChangeEvent&gt;();
     this.revokeChoiceSource &#x3D; new Subject&lt;void&gt;();
 
     // Observable  streams
     this.popupOpen$ &#x3D; this.popupOpenSource.asObservable();
     this.popupClose$ &#x3D; this.popupCloseSource.asObservable();
-    this.initialize$ &#x3D; this.InitializeSource.asObservable();
+    this.initialize$ &#x3D; this.initializeSource.asObservable();
     this.statusChange$ &#x3D; this.statusChangeSource.asObservable();
     this.revokeChoice$ &#x3D; this.revokeChoiceSource.asObservable();
 
@@ -648,8 +648,8 @@ export class NgcCookieConsentService {
       this.config.onPopupClose &#x3D;
         () &#x3D;&gt; this.popupCloseSource.next();
 
-      this.config.onInitialize &#x3D;
-        (status: &#x27;allow&#x27; | &#x27;deny&#x27; | &#x27;dismiss&#x27;) &#x3D;&gt; this.InitializeSource.next({ status: status });
+      this.config.onInitialise &#x3D;
+        (status: &#x27;allow&#x27; | &#x27;deny&#x27; | &#x27;dismiss&#x27;) &#x3D;&gt; this.initializeSource.next({ status: status });
 
       this.config.onStatusChange &#x3D;
         (status: &#x27;allow&#x27; | &#x27;deny&#x27; | &#x27;dismiss&#x27;, chosenBefore: boolean) &#x3D;&gt; {
