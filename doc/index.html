@@ -172,6 +172,9 @@
                                     <a href="./interfaces/NgcLayouts.html" >NgcLayouts</a>
                                 </li>
                                 <li class="link">
+                                    <a href="./interfaces/NgcNoCookieLawEvent.html" >NgcNoCookieLawEvent</a>
+                                </li>
+                                <li class="link">
                                     <a href="./interfaces/NgcPalette.html" >NgcPalette</a>
                                 </li>
                                 <li class="link">
@@ -366,6 +369,9 @@
                                            <a href="./interfaces/NgcLayouts.html" >NgcLayouts</a>
                                        </li>
                                        <li class="link">
+                                           <a href="./interfaces/NgcNoCookieLawEvent.html" >NgcNoCookieLawEvent</a>
+                                       </li>
+                                       <li class="link">
                                            <a href="./interfaces/NgcPalette.html" >NgcPalette</a>
                                        </li>
                                        <li class="link">
@@ -420,8 +426,8 @@
 <p>View the module in action at <a href="https://tinesoft.github.io/ngx-cookieconsent">https://tinesoft.github.io/ngx-cookieconsent</a></p>
 <h2 id="dependencies">Dependencies</h2>
 <ul>
-<li><a href="https://angular.io">Angular</a> (<em>requires</em> Angular 2 or higher, tested with 2.0.0 and 4.0.0)</li>
-<li><a href="https://cookieconsent.insites.com/">Cookie Consent</a> (<em>requires</em> Cookie Consent 3 or higher, tested with 3.0.4)</li>
+<li><a href="https://angular.io">Angular</a> (<em>requires</em> Angular 6+, <a href="https://github.com/tinesoft/ngx-cookieconsent/tree/v1.1.1">v1.1.1</a> is the latest version for Angular &lt; 6 )</li>
+<li><a href="https://cookieconsent.insites.com/">Cookie Consent</a> (<em>requires</em> Cookie Consent 3 or higher, tested with 3.0.6)</li>
 </ul>
 <h2 id="installation">Installation</h2>
 <p>Install above dependencies via <em>npm</em>. In particular for <code>Cookie Consent</code>:</p>
@@ -512,6 +518,7 @@ export class AppComponent implements OnInit, OnDestroy {
   private initializeSubscription: Subscription;
   private statusChangeSubscription: Subscription;
   private revokeChoiceSubscription: Subscription;
+  private noCookieLawSubscription: Subscription;
 
   constructor(private ccService: NgcCookieConsentService){}
 
@@ -541,6 +548,11 @@ export class AppComponent implements OnInit, OnDestroy {
       () =&gt; {
         // you can use this.ccService.getConfig() to do stuff...
       });
+
+      this.noCookieLawSubscription = this.ccService.noCookieLaw$.subscribe(
+      (event: NgcNoCookieLawEvent) =&gt; {
+        // you can use this.ccService.getConfig() to do stuff...
+      });
   }
 
   ngOnDestroy() {
@@ -550,6 +562,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.initializeSubscription.unsubscribe();
     this.statusChangeSubscription.unsubscribe();
     this.revokeChoiceSubscription.unsubscribe();
+    this.noCookieLawSubscription.unsubscribe();
   }
 }</code></pre><p>See <a href="https://cookieconsent.insites.com/documentation/about-cookie-consent/">Cookie Consent Documentation</a> to see more about how to customize the UI or interact with user interactions.</p>
 <h2 id="i18n-support">I18n Support</h2>
@@ -616,7 +629,7 @@ export class AppComponent {
   }</code></pre><h2 id="credits">Credits</h2>
 <p><code>ngx-cookieconsent</code> is built upon <a href="https://cookieconsent.insites.com/">Cookie Consent</a>, created by <a href="https://insites.com">Insites</a></p>
 <h2 id="license">License</h2>
-<p>Copyright (c) 2017 Tine Kondo. Licensed under the MIT License (MIT)</p>
+<p>Copyright (c) 2018 Tine Kondo. Licensed under the MIT License (MIT)</p>
 
 
 

@@ -172,6 +172,9 @@
                                     <a href="../interfaces/NgcLayouts.html" >NgcLayouts</a>
                                 </li>
                                 <li class="link">
+                                    <a href="../interfaces/NgcNoCookieLawEvent.html" >NgcNoCookieLawEvent</a>
+                                </li>
+                                <li class="link">
                                     <a href="../interfaces/NgcPalette.html" >NgcPalette</a>
                                 </li>
                                 <li class="link">
@@ -364,6 +367,9 @@
                                        </li>
                                        <li class="link">
                                            <a href="../interfaces/NgcLayouts.html" >NgcLayouts</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../interfaces/NgcNoCookieLawEvent.html" >NgcNoCookieLawEvent</a>
                                        </li>
                                        <li class="link">
                                            <a href="../interfaces/NgcPalette.html" >NgcPalette</a>
@@ -986,11 +992,11 @@
 
     <div class="tab-pane fade tab-source-code" id="source">
         <pre class="line-numbers"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
-import { Subject } from &#x27;rxjs/Subject&#x27;;
-import { Observable } from &#x27;rxjs/Observable&#x27;;
+import { Subject, Observable } from &#x27;rxjs&#x27;;
 
 import { NgcCookieConsentStatus } from &#x27;../model/common-interfaces&#x27;;
 import { NgcStatusChangeEvent } from &#x27;../event/status-change.event&#x27;;
+import { NgcNoCookieLawEvent } from &#x27;../event/no-cookie-law.event&#x27;;
 import { NgcInitializeEvent } from &#x27;../event/initialize.event&#x27;;
 import { NgcCookieConsentConfig } from &#x27;./cookieconsent-config&#x27;;
 import { WindowService } from &#x27;./window.service&#x27;;
@@ -1058,6 +1064,7 @@ export class NgcCookieConsentService {
   private initializeSource: Subject&lt;NgcInitializeEvent&gt;;
   private statusChangeSource: Subject&lt;NgcStatusChangeEvent&gt;;
   private revokeChoiceSource: Subject&lt;void&gt;;
+  private noCookieLawSource: Subject&lt;NgcNoCookieLawEvent&gt;;
 
   /**
    * Observable to subscribe to and get notified when Cookie Consent popup opens.
@@ -1076,9 +1083,13 @@ export class NgcCookieConsentService {
   */
   statusChange$: Observable&lt;NgcStatusChangeEvent&gt;;
   /**
-  * Observable to subscribe to and get notified when Cookie is revoked.
-  */
+   * Observable to subscribe to and get notified when Cookie is revoked.
+   */
   revokeChoice$: Observable&lt;void&gt;;
+  /**
+  * Observable to subscribe to and get notified when no Cookie Law is applicable.
+  */
+  noCookieLaw$: Observable&lt;NgcNoCookieLawEvent&gt;;
 
   constructor(windowService: WindowService, config: NgcCookieConsentConfig) {
     // Observable  sources
@@ -1087,6 +1098,7 @@ export class NgcCookieConsentService {
     this.initializeSource &#x3D; new Subject&lt;NgcInitializeEvent&gt;();
     this.statusChangeSource &#x3D; new Subject&lt;NgcStatusChangeEvent&gt;();
     this.revokeChoiceSource &#x3D; new Subject&lt;void&gt;();
+    this.noCookieLawSource &#x3D; new Subject&lt;NgcNoCookieLawEvent&gt;();
 
     // Observable  streams
     this.popupOpen$ &#x3D; this.popupOpenSource.asObservable();
@@ -1094,6 +1106,7 @@ export class NgcCookieConsentService {
     this.initialize$ &#x3D; this.initializeSource.asObservable();
     this.statusChange$ &#x3D; this.statusChangeSource.asObservable();
     this.revokeChoice$ &#x3D; this.revokeChoiceSource.asObservable();
+    this.noCookieLaw$ &#x3D; this.noCookieLawSource.asObservable();
 
     this.window &#x3D; windowService.nativeWindow;
     this.init(config);
@@ -1132,6 +1145,11 @@ export class NgcCookieConsentService {
 
       this.config.onRevokeChoice &#x3D;
         () &#x3D;&gt; this.revokeChoiceSource.next();
+
+      this.config.onNoCookieLaw &#x3D;
+        (countryCode: string, country: string) &#x3D;&gt; {
+          this.noCookieLawSource.next({ countryCode: countryCode, country: country });
+        };
 
       // Init the cookieconsent library with injected config
       this.cookieconsent.initialise(this.config, (popup: NgcCookieConsentPopup) &#x3D;&gt; this.popupInstance &#x3D; popup);
