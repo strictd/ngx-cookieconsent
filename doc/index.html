@@ -249,7 +249,67 @@ export class AppComponent {
         this.ccService.destroy();//remove previous cookie bar (with default messages)
         this.ccService.init(this.ccService.getConfig()); // update config with translated messages
       });
-  }</code></pre></div><h2 id="credits">Credits</h2>
+  }</code></pre></div><h2 id="custom-layout-support">Custom Layout Support</h2>
+<p>Cookie Consent supports <a href="https://cookieconsent.insites.com/documentation/javascript-api/#layout_options">custom layouts</a>, and so does <code>ngx-cookieconsent</code>.
+So if your are not happy with the default appearance of the cookie bar, you can totally customize it to better suit your needs. This involves overriding a few options:</p>
+<ul>
+<li><a href="https://github.com/tinesoft/ngx-cookieconsent/blob/master/src/service/cookieconsent-config.ts#L78">NgcCookieConsentConfig.layout</a>: to define the name of your custom layout to use. For e.g <code>my-custom-layout</code></li>
+<li><a href="https://github.com/tinesoft/ngx-cookieconsent/blob/master/src/service/cookieconsent-config.ts#L73">NgcCookieConsentConfig.layouts</a>: to define your custom layout HTML. Elements between <code>{{</code> and <code>}}</code> will be replaced by their content (see in NgcContentOptions below)</li>
+<li><a href="https://github.com/tinesoft/ngx-cookieconsent/blob/master/src/model/cookieconsent-config.ts#L44">NgcCookieConsentConfig.elements</a> : html elements referenced in the custom layout (between <code>{{</code> and <code>}}</code>)</li>
+<li><a href="https://github.com/tinesoft/ngx-cookieconsent/blob/master/src/model/cookieconsent-config.ts#L36">NgcCookieConsentConfig.content</a> : content of elements referenced in the custom elements above (between <code>{{</code> and <code>}}</code>)</li>
+</ul>
+<p>Here is a example of a <strong>custom layout</strong>, that is inspired from the default [&#39;basic&#39; layout] , but simply changes the message and links that are displayed in the bar.</p>
+<div><pre class="line-numbers"><code class="language-ts">import {NgcCookieConsentModule, NgcCookieConsentConfig} from &#39;ngx-cookieconsent&#39;;
+
+const cookieConfig:NgcCookieConsentConfig = {
+  cookie: {
+    domain: &#39;localhost&#39;// it is recommended to set your domain, for cookies to work properly
+  },
+  palette: {
+    popup: {
+      background: &#39;#000&#39;
+    },
+    button: {
+      background: &#39;#f1d600&#39;
+    }
+  },
+  theme: &#39;edgeless&#39;,
+  type: &#39;opt-out&#39;,
+  layout: &#39;my-custom-layout&#39;,
+  layouts: {
+    &quot;my-custom-layout&quot;: &#39;{{messageLink}}{{compliance}}&#39;
+  },
+  elements:{
+    messageLink: `
+    &lt;span id=&quot;cookieconsent:desc&quot; class=&quot;cc-message&quot;&gt;{{message}} 
+      &lt;a aria-label=&quot;learn more about cookies&quot; tabindex=&quot;0&quot; class=&quot;cc-link&quot; href=&quot;{{cookiePolicyHref}}&quot; target=&quot;_blank&quot;&gt;{{cookiePolicyLink}}&lt;/a&gt;, 
+      &lt;a aria-label=&quot;learn more about our privacy policy&quot; tabindex=&quot;1&quot; class=&quot;cc-link&quot; href=&quot;{{privacyPolicyHref}}&quot; target=&quot;_blank&quot;&gt;{{privacyPolicyLink}}&lt;/a&gt; and our 
+      &lt;a aria-label=&quot;learn more about our terms of service&quot; tabindex=&quot;2&quot; class=&quot;cc-link&quot; href=&quot;{{tosHref}}&quot; target=&quot;_blank&quot;&gt;{{tosLink}}&lt;/a&gt;
+    &lt;/span&gt;
+    `,
+  },
+  content:{
+    message: &#39;By using our site, you acknowledge that you have read and understand our &#39;,
+
+    cookiePolicyLink: &#39;Cookie Policy&#39;,
+    cookiePolicyHref: &#39;https://cookie.com&#39;,
+
+    privacyPolicyLink: &#39;Privacy Policy&#39;,
+    privacyPolicyHref: &#39;https://privacy.com&#39;,
+
+    tosLink: &#39;Terms of Service&#39;,
+    tosHref: &#39;https://tos.com&#39;,
+  }
+};
+
+
+&#64;NgModule({
+  declarations: [AppComponent, ...],
+  imports: [NgcCookieConsentModule.forRoot(cookieConfig), ...],  
+  bootstrap: [AppComponent]
+})
+export class AppModule {
+}</code></pre></div><h2 id="credits">Credits</h2>
 <p><code>ngx-cookieconsent</code> is built upon <a href="https://cookieconsent.insites.com/">Cookie Consent</a>, created by <a href="https://insites.com">Insites</a></p>
 <h2 id="license">License</h2>
 <p>Copyright (c) 2018 Tine Kondo. Licensed under the MIT License (MIT)</p>
