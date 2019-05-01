@@ -254,11 +254,11 @@ export class AppComponent {
 So if your are not happy with the default appearance of the cookie bar, you can totally customize it to better suit your needs. This involves overriding a few options:</p>
 <ul>
 <li><a href="https://github.com/tinesoft/ngx-cookieconsent/blob/master/src/service/cookieconsent-config.ts#L78">NgcCookieConsentConfig.layout</a>: to define the name of your custom layout to use. For e.g <code>my-custom-layout</code></li>
-<li><a href="https://github.com/tinesoft/ngx-cookieconsent/blob/master/src/service/cookieconsent-config.ts#L73">NgcCookieConsentConfig.layouts</a>: to define your custom layout HTML. Elements between <code>{{</code> and <code>}}</code> will be replaced by their content (see in NgcContentOptions below)</li>
+<li><a href="https://github.com/tinesoft/ngx-cookieconsent/blob/master/src/service/cookieconsent-config.ts#L73">NgcCookieConsentConfig.layouts</a>: to define your custom layout HTML. Elements between <code>{{</code> and <code>}}</code> will be replaced by their content (see in <code>[NgcCookieConsentConfig.content</code> below)</li>
 <li><a href="https://github.com/tinesoft/ngx-cookieconsent/blob/master/src/model/cookieconsent-config.ts#L44">NgcCookieConsentConfig.elements</a> : html elements referenced in the custom layout (between <code>{{</code> and <code>}}</code>)</li>
 <li><a href="https://github.com/tinesoft/ngx-cookieconsent/blob/master/src/model/cookieconsent-config.ts#L36">NgcCookieConsentConfig.content</a> : content of elements referenced in the custom elements above (between <code>{{</code> and <code>}}</code>)</li>
 </ul>
-<p>Here is a example of a <strong>custom layout</strong>, that is inspired from the default [&#39;basic&#39; layout] , but simply changes the message and links that are displayed in the bar.</p>
+<p>Here is a example of a <strong>custom layout</strong>, that is inspired from the default &#39;basic&#39; layout , but simply changes the message and links that are displayed in the bar.</p>
 <div><pre class="line-numbers"><code class="language-ts">import {NgcCookieConsentModule, NgcCookieConsentConfig} from &#39;ngx-cookieconsent&#39;;
 
 const cookieConfig:NgcCookieConsentConfig = {
@@ -312,7 +312,7 @@ export class AppModule {
 }</code></pre></div><h2 id="credits">Credits</h2>
 <p><code>ngx-cookieconsent</code> is built upon <a href="https://cookieconsent.insites.com/">Cookie Consent</a>, created by <a href="https://insites.com">Insites</a></p>
 <h2 id="license">License</h2>
-<p>Copyright (c) 2018 Tine Kondo. Licensed under the MIT License (MIT)</p>
+<p>Copyright (c) 2019 Tine Kondo. Licensed under the MIT License (MIT)</p>
 
 
 
