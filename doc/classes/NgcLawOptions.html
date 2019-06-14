@@ -90,6 +90,7 @@
                                 <a href="#countryCode">countryCode</a>
                             </li>
                             <li>
+                                    <span class="modifier">Optional</span>
                                 <a href="#regionalLaw">regionalLaw</a>
                             </li>
                         </ul>
@@ -152,6 +153,7 @@
                         <a name="regionalLaw"></a>
                         <span class="name">
                             <b>
+                                <span class="modifier">Optional</span>
                             regionalLaw
                             </b>
                             <a href="#regionalLaw"><span class="icon ion-ios-link"></span></a>
@@ -196,7 +198,7 @@
 
   // If false, then we only enable the popup if the country has the cookie law. We ignore all other country specific rules.
   // Default: true
-  regionalLaw &#x3D; true;
+  regionalLaw ?&#x3D; true;
 }
 </code></pre>
     </div>

@@ -89,12 +89,15 @@ To enable the basic location services, set &#39;location&#39; to &#39;true&#39;.
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
+                                    <span class="modifier">Optional</span>
                                 <a href="#serviceDefinitions">serviceDefinitions</a>
                             </li>
                             <li>
+                                    <span class="modifier">Optional</span>
                                 <a href="#services">services</a>
                             </li>
                             <li>
+                                    <span class="modifier">Optional</span>
                                 <a href="#timeout">timeout</a>
                             </li>
                         </ul>
@@ -123,6 +126,7 @@ To enable the basic location services, set &#39;location&#39; to &#39;true&#39;.
                         <a name="serviceDefinitions"></a>
                         <span class="name">
                             <b>
+                                <span class="modifier">Optional</span>
                             serviceDefinitions
                             </b>
                             <a href="#serviceDefinitions"><span class="icon ion-ios-link"></span></a>
@@ -131,13 +135,13 @@ To enable the basic location services, set &#39;location&#39; to &#39;true&#39;.
                 </tr>
                 <tr>
                     <td class="col-md-4">
-                        <code>serviceDefinitions:     <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                        <code>serviceDefinitions:     <code>literal type</code>
 </code>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Type : </i>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                            <i>Type : </i>    <code>literal type</code>
 
                         </td>
                     </tr>
@@ -164,6 +168,7 @@ To enable the basic location services, set &#39;location&#39; to &#39;true&#39;.
                         <a name="services"></a>
                         <span class="name">
                             <b>
+                                <span class="modifier">Optional</span>
                             services
                             </b>
                             <a href="#services"><span class="icon ion-ios-link"></span></a>
@@ -172,13 +177,13 @@ To enable the basic location services, set &#39;location&#39; to &#39;true&#39;.
                 </tr>
                 <tr>
                     <td class="col-md-4">
-                        <code>services:     <code>[]</code>
+                        <code>services:     <code>any[]</code>
 </code>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Type : </i>    <code>[]</code>
+                            <i>Type : </i>    <code>any[]</code>
 
                         </td>
                     </tr>
@@ -212,6 +217,7 @@ Default: [&#39;freegeoip&#39;, &#39;ipinfo&#39;, &#39;maxmind&#39;]</p>
                         <a name="timeout"></a>
                         <span class="name">
                             <b>
+                                <span class="modifier">Optional</span>
                             timeout
                             </b>
                             <a href="#timeout"><span class="icon ion-ios-link"></span></a>
@@ -269,20 +275,20 @@ Default: 5000 (milliseconds)</p>
    * We can&#x27;t react to errors from script tag resources, so we set a timeout. If we don&#x27;t have the answer after 5000ms, try the next service.
    * Default: 5000 (milliseconds)
    */
-  timeout &#x3D; 5000;
+  timeout ?&#x3D; 5000;
   /**
    * This array defines the services that you want to use. We attempt to get the country code from the first service, and only if the service fails do we move onto the next service.
    * If all services fail, the popup is opened without modification.
    * If a service succeeds, then the two letter country code is passed to the &#x27;Law&#x27; module, with changes your popup options depending on the cookie laws in the country code.
    * Default: [&#x27;freegeoip&#x27;, &#x27;ipinfo&#x27;, &#x27;maxmind&#x27;]
    */
-  services &#x3D; [&#x27;freegeoip&#x27;, &#x27;ipinfo&#x27;, &#x27;maxmind&#x27;];
+  services ?: any[] &#x3D; [&#x27;freegeoip&#x27;, &#x27;ipinfo&#x27;, &#x27;maxmind&#x27;];
 
   /**
    * This can be used to define new services via a key, but new services they can also go straight into the &#x27;services&#x27; array in an ad-hoc fashion.
    *  It is recommended that you define services in &#x27;serviceDefinitions&#x27; and use &#x27;services&#x27; to configure priority between services
    */
-  serviceDefinitions: any;
+  serviceDefinitions ?: { [key: string]: (...options: any[]) &#x3D;&gt; any };
 
 }
 </code></pre>
