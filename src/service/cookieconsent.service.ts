@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Subject, Observable } from 'rxjs';
+import { BehaviorSubject, Subject, Observable } from 'rxjs';
 
 import { NgcCookieConsentStatus } from '../model/common-interfaces';
 import { NgcStatusChangeEvent } from '../event/status-change.event';
@@ -68,7 +68,7 @@ export class NgcCookieConsentService {
   // Observable  sources
   private popupOpenSource: Subject<void>;
   private popupCloseSource: Subject<void>;
-  private initializeSource: Subject<NgcInitializeEvent>;
+  private initializeSource: BehaviorSubject<NgcInitializeEvent>;
   private statusChangeSource: Subject<NgcStatusChangeEvent>;
   private revokeChoiceSource: Subject<void>;
   private noCookieLawSource: Subject<NgcNoCookieLawEvent>;
@@ -102,7 +102,7 @@ export class NgcCookieConsentService {
     // Observable  sources
     this.popupOpenSource = new Subject<void>();
     this.popupCloseSource = new Subject<void>();
-    this.initializeSource = new Subject<NgcInitializeEvent>();
+    this.initializeSource = new BehaviorSubject<NgcInitializeEvent>();
     this.statusChangeSource = new Subject<NgcStatusChangeEvent>();
     this.revokeChoiceSource = new Subject<void>();
     this.noCookieLawSource = new Subject<NgcNoCookieLawEvent>();
